@@ -249,6 +249,12 @@ That is the useful bit about multimodal embeddings: an image, a plain-language d
 >
 > A lower score doesn't mean worse results — it means your query uses fewer signals than are available in the target object's embedding vector. Results remain excellent across all parameter combinations; only the filtering behavior changes.
 
+![score-results(1)](<docs/images/score-results(1).jpeg>)
+
+![score-results(2)](<docs/images/score-results(2).jpeg>)
+
+![score-results(2)](<docs/images/score-results(3).jpeg>)
+
 <a id="comparing-siblings"></a>
 
 ## Comparing Siblings

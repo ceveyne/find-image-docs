@@ -9,6 +9,20 @@ Notable changes to this project will be documented in this file.
 
 ---
 
+## [0.1.3] - 2026-07-18 Revision 3
+
+### Changed
+
+- Added some more screenshots to README.md.
+- Improved tool-descriptions.
+- Diagnostic logs now consistently use local time.
+
+### Fixed
+
+- Draw Things project updates are detected reliably, including recent changes.
+
+---
+
 ## [0.1.2] - 2026-07-18 Revision 2
 
 ### Fixed
