@@ -9,6 +9,14 @@ Notable changes to this project will be documented in this file.
 
 ---
 
+## [0.1.5] - 2026-07-19 Revision 5
+
+### Changed
+
+- Structured search criteria no longer affect semantic result ranking.
+
+---
+
 ## [0.1.4] - 2026-07-19 Revision 4
 
 ### Changed
