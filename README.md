@@ -146,10 +146,11 @@ The good news is that your plugin settings and valuable embeddings stay intact.
 
 ## Plugin Settings
 
-The plugin settings are mostly self-explanatory and are covered above in the setup instructions. Two notes:
+The plugin settings are mostly self-explanatory and are covered above in the setup instructions. Notes:
 
-1. **Max Results** determines how many results are shown. The value refers to generations, and one generation can have multiple variants. You may therefore see more images than expected.
-2. **Max New Multimodal Embeddings per Run** determines how many visuals added since the last `find_image` call, or not yet indexed at all, are embedded.
+1. **Allow byte-identical Results** disables duplicates filtering and is helpful for this particular use case: finding byte-identical duplicates across all search sources.
+2. **Max Results** determines how many results are shown. The value refers to generations, and one generation can have multiple variants. You may therefore see more images than expected.
+3. **Max New Multimodal Embeddings per Run** determines how many visuals added since the last `find_image` call, or not yet indexed at all, are embedded.
 
 ![find-image-search-settings](docs/images/find-image-search-settings.jpeg)
 
@@ -215,7 +216,7 @@ For example, attach an image with metadata and search with the image plus its me
 
 **find-image** then looks for images that are close in both appearance and generation context. This is useful when you want more images from the same visual style, session, or creative direction.
 
-If your attached image is already in the index, **find-image** leaves it out of the results. Otherwise, the first result would often just be the same image again. It also filters out any byte-identical copies for the same reason.
+If your attached image is already in the index, **find-image** leaves it out of the results. Otherwise, the first result would often just be the same image again. By default, it also filters out any byte-identical copies for the same reason.
 
 So in this mode, _similar_ means similar in both the pixels and the metadata, not merely one or the other.
 

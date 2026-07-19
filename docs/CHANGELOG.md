@@ -9,18 +9,16 @@ Notable changes to this project will be documented in this file.
 
 ---
 
-## [0.1.5] - 2026-07-19 Revision 5
-
-### Changed
-
-- Structured search criteria no longer affect semantic result ranking.
-
----
-
 ## [0.1.4] - 2026-07-19 Revision 4
 
+### Added
+
+- Added an option to allow for byte-identical duplicates in search resutls.
+
 ### Changed
 
+- Updated README.md.
+- Structured search criteria no longer affect semantic result ranking.
 - Metadata searches now return only images matching every requested constraint.
 
 ### Fixed
