@@ -9,6 +9,15 @@ Notable changes to this project will be documented in this file.
 
 ---
 
+## [0.1.5] - 2026-07-20 Revision 5
+
+### Changed
+
+- Significantly improved instruction-following: Image-guided searches now follow requested additions and constraints more closely.
+- Updated README.md.
+
+---
+
 ## [0.1.4] - 2026-07-19 Revision 4
 
 ### Added
