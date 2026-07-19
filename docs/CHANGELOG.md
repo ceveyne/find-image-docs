@@ -9,6 +9,18 @@ Notable changes to this project will be documented in this file.
 
 ---
 
+## [0.1.4] - 2026-07-19 Revision 4
+
+### Changed
+
+- Metadata searches now return only images matching every requested constraint.
+
+### Fixed
+
+- Search results no longer re-enter image indexing.
+
+---
+
 ## [0.1.3] - 2026-07-18 Revision 3
 
 ### Changed
