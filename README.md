@@ -173,10 +173,10 @@ After testing and choosing the model that works best for you, set **Max New Mult
 
 The `find_image` tool interface has four fields:
 
-- target: image references (aN, vN, iN, pN) or an absolute image file path
-- query: prompt terms, model names, LoRAs, or a Draw Things project filename. For visual search, write a descriptive sentence of the scene/subject rather than a keyword list.
-- includeMetadata: append target generation metadata to query when the metadata should influence results
-- excludeImage: ignore target image pixels; use query text and optional target metadata only
+- target: an image reference (`aN`, `vN`, `iN`, `pN`) or absolute image path; use it for "like this image", style references, or changes to a shown image
+- query: with `target`, positively describe additions or changes; without `target`, write a complete description. `Model:`, `LoRAs:`, `Size:`, `Source:`, `Origin:`, and `Timestamp:` are hard AND filters.
+- includeMetadata: add target generation metadata as a ranking signal across the full corpus, not an identical-metadata filter
+- excludeImage: ignore target pixels; use only for prompt or metadata similarity without visual similarity
 
 Use one, two, three, or all four fields in each search, depending on what you want to find or achieve.
 
@@ -190,15 +190,15 @@ Use one, two, three, or all four fields in each search, depending on what you wa
 
 ![find-image-search-by-metadata(2)](<docs/images/search-by-metadata(2).jpeg>)
 
-| Goal                                                       | Recommended Parameters                               | Why?                                                                                                                                                                |
-| ---------------------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **"Find visually similar images"**                         | `{target}` only                                      | Pixels alone provide strong visual similarity. A lower score simply means metadata signals are not being used in the query; quality remains excellent               |
-| **"More from this session/project/creative direction"**    | `target + includeMetadata`                           | Prompt context acts as additional filter → strongest thematic coherence and highest scores when target has metadata                                                 |
-| **"Visually similar, but steered toward concept X"**       | `target + query` (no metadata)                       | The visual anchor preserves similarity while text adds directional guidance. The score drops because the full embedding is not covered; results remain high-quality |
-| **"Maximum precision with all signals"**                   | `target + query + includeMetadata`                   | Combines visual, textual, and metadata filtering for balanced control over the result space                                                                         |
-| **"Thematic search across entire collection"**             | `{query}` only (no target)                           | Searches the full index using a text description. The score is lower without an image anchor, but the results remain relevant and broader in scope                  |
-| **"Text-based similarity using target prompt as context"** | `excludeImage + includeMetadata + query`             | Ignores pixels; uses target's generation metadata plus your query for semantic search across prompts                                                                |
-| **"What was prompted similarly to this image?"**           | `target + excludeImage + includeMetadata` (no query) | Purely metadata-driven — finds images with similar prompt language regardless of visual outcome. Great for exploring how the same concept rendered differently      |
+| Goal                                                          | Recommended Parameters                                                          | Why?                                                                                                                    |
+| ------------------------------------------------------------- | ------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **"Find visually similar images"**                            | `{target}`                                                                      | The reference image ranks the complete corpus by visual similarity.                                                     |
+| **"Same style, but different subject or scene"**              | `target + query`                                                                | Keep the reference as the visual anchor; positively describe the change, for example `people in front of a brick wall`. |
+| **"More from this creative direction"**                       | `target + includeMetadata`                                                      | Image pixels and target metadata jointly rank the complete corpus by visual and generation-context similarity.          |
+| **"Reference style plus a specific new concept"**             | `target + query + includeMetadata`                                              | Combines visual reference, requested changes, and target metadata as ranking signals.                                   |
+| **"Thematic search without a reference image"**               | `{query}`                                                                       | Uses a complete descriptive text query across the full collection.                                                      |
+| **"Require specific generation metadata"**                    | `query` with `Model:`, `LoRAs:`, `Size:`, `Source:`, `Origin:`, or `Timestamp:` | These hard AND filters limit candidates before retrieval and reranking.                                                 |
+| **"Prompt or metadata similarity without visual similarity"** | `target + excludeImage + includeMetadata`                                       | Uses reference metadata as a text-based similarity signal while deliberately omitting image pixels.                     |
 
 <a id="fusion-embedding"></a>
 
@@ -228,27 +228,30 @@ That is the useful bit about multimodal embeddings: an image, a plain-language d
 
 ## Key Insights
 
-### 1. Metadata is a strong filter, not just a booster
+### 1. Reference signals rank; structured metadata filters
 
-- Results shift toward same-session images with similar prompts (Amber-Wombat/Badger family)
-- This makes `includeMetadata` ideal for "find more generations from this creative direction"
+- `target` and `includeMetadata` rank results from the complete corpus by visual and generation-context similarity.
+- Structured metadata in `query`, such as `Model:` and `Size:`, are hard AND filters that restrict candidates before retrieval.
 
-### 2. excludeImage cleanly separates text from pixels
+### 2. excludeImage removes visual similarity
 
-### 3. Pure text search has the lowest scores but still works well
+- Use `excludeImage` only when prompt or metadata similarity should matter without target image pixels.
+- Do not use it for style references or other image-guided changes.
 
-- Low score reflects incomplete embedding coverage (no image pixels in query), not poor quality
-- Useful for broad thematic searches across the entire indexed collection
+### 3. Query text changes role with target
 
-### 4. Query text steers differently depending on context
+- With `target`, describe desired additions or replacements positively instead of reconstructing the reference image in text.
+- Without `target`, use a complete description for thematic text search.
 
-### 5. The full combination is a good precision compromise
+### 4. Combine signals deliberately
+
+- `target + query + includeMetadata` combines visual reference, requested changes, and metadata similarity without restricting results to identical metadata.
 
 ### The Golden Rule
 
 > **Score ≠ Quality. Score = Embedding Coverage.**
 >
-> A lower score doesn't mean worse results — it means your query uses fewer signals than are available in the target object's embedding vector. Results remain excellent across all parameter combinations; only the filtering behavior changes.
+> A lower score does not necessarily mean worse results. Signals change what ranks first, while structured query metadata determines which candidates are eligible.
 
 ![score-results(1)](<docs/images/score-results(1).jpeg>)
 

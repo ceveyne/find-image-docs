@@ -9,6 +9,15 @@ Notable changes to this project will be documented in this file.
 
 ---
 
+## [0.1.6] - 2026-07-20 Revision 6
+
+### Changed
+
+- Searches now use differentiated task-specific instructions for more valid retrieval results.
+- Updated README.md.
+
+---
+
 ## [0.1.5] - 2026-07-20 Revision 5
 
 ### Changed
