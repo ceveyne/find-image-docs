@@ -39,6 +39,8 @@
 
 The plugin combines metadata search with optional multimodal embedding search. Exact text matches still matter, but visual embeddings allow results to be found by image content instead of only by prompt or filename text.
 
+Images can be tagged and found with exact tag filters.
+
 When used together with **[draw-things-chat](https://github.com/ceveyne/draw-things-chat-docs)** or **[user-docs](https://lmstudio.ai/ceveyne/user-docs)**, search results can be shown with visual previews and can be referenced in follow-up analysis, detection, generation, edit, image-to-image, image-to-video, or post-processing requests.
 
 <a id="search-sources"></a>
@@ -54,6 +56,8 @@ The local index can include:
 - Images from LM Studio chat working directories, with or without metadata sidecars
 - Draw Things project files with generation history and thumbnails
 - Saved images without any metadata
+
+The multimodal index accepts PNG, JPG/JPEG, TGA, BMP, PSD, GIF, HDR, PIC, PPM, and PGM images. WebP, TIFF/TIF, HEIC, and HEIF are not supported.
 
 <a id="setup"></a>
 
@@ -96,7 +100,7 @@ Upstream llama.cpp does not fully support Qwen3-VL-Embedding yet, so LM Studio's
 ⚠️ macOS quarantines downloaded files by default. To let it use the downloaded, ad hoc-signed llama-server binaries, remove that quarantine attribute, just as you would for [Draw Things gRPCServerCLI-macOS](https://github.com/drawthingsai/draw-things-community/releases):
 
 ```bash
-~ % xattr -dr com.apple.quarantine ~/.lmstudio/extensions/backends/qwen3-vl-embedding/ && xattr -l ~/.lmstudio/extensions/backends/qwen3-vl-embedding/libllama-server-impl.dylib
+xattr -dr com.apple.quarantine ~/.lmstudio/extensions/backends/qwen3-vl-embedding/ && xattr -l ~/.lmstudio/extensions/backends/qwen3-vl-embedding/libllama-server-impl.dylib
 ```
 
 Change the path if you stored the binaries somewhere else.
@@ -139,7 +143,7 @@ The good news is that your plugin settings and valuable embeddings stay intact.
 
 ```
 ~/.find-image/data/generation_index_cache.json
-~/.find-image/data/multimodal_embeddings-gguf.sqlite3
+~/.find-image/data/multimodal_embeddings.sqlite3
 ```
 
 <a id="plugin-settings"></a>
@@ -199,6 +203,11 @@ Use one, two, three, or all four fields in each search, depending on what you wa
 | **"Thematic search without a reference image"**               | `{query}`                                                                       | Uses a complete descriptive text query across the full collection.                                                      |
 | **"Require specific generation metadata"**                    | `query` with `Model:`, `LoRAs:`, `Size:`, `Source:`, `Origin:`, or `Timestamp:` | These hard AND filters limit candidates before retrieval and reranking.                                                 |
 | **"Prompt or metadata similarity without visual similarity"** | `target + excludeImage + includeMetadata`                                       | Uses reference metadata as a text-based similarity signal while deliberately omitting image pixels.                     |
+
+The `tag_image` tool allows you to manage persistent tags for indexed images:
+
+- You can show, add, or remove one or more tags for indexed images registered within the current conversation.
+- Tags persist for indexed images until removed. They can be used with `find_image` as a distinct filter to help you organize your images.
 
 <a id="fusion-embedding"></a>
 

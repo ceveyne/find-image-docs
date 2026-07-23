@@ -9,6 +9,15 @@ Notable changes to this project will be documented in this file.
 
 ---
 
+# [0.1.6] - 2026-07-23 Revision 7
+
+### Added
+
+- Added a new tool: `tag_image`. Images can now be tagged and found with exact tag filters.
+- Updated README.md.
+
+---
+
 ## [0.1.6] - 2026-07-20 Revision 6
 
 ### Changed
